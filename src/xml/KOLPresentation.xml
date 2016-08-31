@@ -1,0 +1,29 @@
+<presentation>
+	<title>Presentation 1</title>
+	<description>Description of the presendation 1</description>
+	<thumbnailImage>assets/images/image1-tn.jpg</thumbnailImage>	
+	<slide>
+		<title>Image 1</title>
+		<thumbnailImage>images/small/image1-tn.jpg</thumbnailImage>
+		<image>images/large/image1.jpg</image>		
+		<status>mandatory</status>
+	</slide>
+	<slide>
+		<title>Image 2</title>
+		<thumbnailImage>images/small/image2-tn.jpg</thumbnailImage>
+		<image>images/large/image2.jpg</image>		
+		<status>mandatory</status>
+	</slide>
+	<slide>
+		<title>Image 3</title>
+		<thumbnailImage>images/small/image3-tn.jpg</thumbnailImage>
+		<image>images/large/image3.jpg</image>		
+		<status>mandatory</status>
+	</slide>
+	<slide>
+		<title>Image 3</title>
+		<thumbnailImage>images/small/image4-tn.jpg</thumbnailImage>
+		<image>images/large/image4.jpg</image>		
+		<status>mandatory</status>
+	</slide>
+</presentation>

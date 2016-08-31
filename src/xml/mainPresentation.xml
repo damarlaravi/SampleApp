@@ -1,0 +1,22 @@
+<employees>
+	<employee>
+		<fistName>Samuel</fistName>
+		<lastName>Ang</lastName>
+		<imageFile>images/sang.jpg</imageFile>
+	</employee>
+	<employee>
+		<fistName>Athena</fistName>
+		<lastName>Parker</lastName>
+		<imageFile>images/aparker.jpg</imageFile>
+	</employee>
+	<employee>
+		<fistName>Saul</fistName>
+		<lastName>Tucker</lastName>
+		<imageFile>images/stucker.jpg</imageFile>
+	</employee>
+	<employee>
+		<fistName>Alyssa</fistName>
+		<lastName>Le</lastName>
+		<imageFile>images/ale.jpg</imageFile>
+	</employee>
+</employees>
