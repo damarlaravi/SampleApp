@@ -1,176 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009"
-					   xmlns:s="library://ns.adobe.com/flex/spark"
-					   xmlns:mx="library://ns.adobe.com/flex/mx"
-					   width="900" height="700"
-					   initialize="presenterService.send()"
->
-	<fx:Style source="Styles.css"/>
-	<fx:Script>
+                       xmlns:s="library://ns.adobe.com/flex/spark"
+                       xmlns:mx="library://ns.adobe.com/flex/mx"
+                       width="1000" height="700"
+                       initialize="presenterService.send()">
+    <fx:Style source="Styles.css"/>
+    <fx:Script>
 		<![CDATA[
-		import mx.collections.ArrayCollection;
-		import mx.rpc.events.ResultEvent;
+        import components.HelpContent;
 
-		[Bindable]
-		private var presentationData:ArrayCollection;
+        import mx.collections.ArrayCollection;
+        import mx.managers.PopUpManager;
+        import mx.rpc.events.ResultEvent;
 
-		[Bindable]
-		private var slideImage:String;
+        [Bindable]
+        private var presentationData:ArrayCollection;
 
-		private var selectedIndex:Number = 0;
+        [Bindable]
+        private var slideImage:String;
 
-		protected function presenterService_resultHandler(event:ResultEvent):void {
-			presentationData = event.result.presentation.slide;
-			slideImage = presentationData[0].image;
-		}
+        private var selectedIndex:Number = 0;
+
+        protected function presenterService_resultHandler(event:ResultEvent):void {
+            presentationData = event.result.presentation.slide;
+            slideImage = presentationData[0].image;
+        }
 
 
-		protected function thumImage_changeHandler(event:Event):void {
-			selectedIndex = thumbList.selectedIndex;
-			slideImage = presentationData[selectedIndex].image;
-			moveLeft.play();
-		}
+        protected function thumImage_changeHandler(event:Event):void {
+            selectedIndex = thumbList.selectedIndex;
+            slideImage = presentationData[selectedIndex].image;
+            moveLeft.play();
+        }
 
-		protected function slideLeft_clickHandler(event:MouseEvent):void {
-			// TODO Auto-generated method stub
-			if (selectedIndex > 0) {
-				selectedIndex = selectedIndex - 1;
-				slideImage = presentationData[selectedIndex].image;
-				moveLeft.play();
-			}
+        protected function slideLeft_clickHandler(event:MouseEvent):void {
+            if (selectedIndex > 0) {
+                selectedIndex = selectedIndex - 1;
+                slideImage = presentationData[selectedIndex].image;
+                moveLeft.play();
+            }
 
-		}
+        }
 
-		protected function slideRight_clickHandler(event:MouseEvent):void {
-			// TODO Auto-generated method stub
-			if (selectedIndex < presentationData.length - 1) {
-				selectedIndex = selectedIndex + 1;
-				slideImage = presentationData[selectedIndex].image;
-				moveRight.play();
-			}
+        protected function slideRight_clickHandler(event:MouseEvent):void {
+            if (selectedIndex < presentationData.length - 1) {
+                selectedIndex = selectedIndex + 1;
+                slideImage = presentationData[selectedIndex].image;
+                moveRight.play();
+            }
 
-		}
-		]]>
+        }
+
+        protected function helpContentHandler(e:MouseEvent):void {
+            var helpContent:HelpContent = new HelpContent();
+            PopUpManager.addPopUp(helpContent, this, true);
+            PopUpManager.centerPopUp(helpContent);
+        }
+        ]]>
 	</fx:Script>
-	
-	<fx:Declarations>		
-		<s:HTTPService id="presenterService" url="xml/KOLPresentation.xml" result="presenterService_resultHandler(event)"/>
-		<s:ArrayList id="mainPresenterButton">
-			<fx:Object label="title" data="Understanding the Data on EPI"/>
-			<fx:Object label="image" data="images/ale.jpg"/>			
-		</s:ArrayList>
-					
-		<s:Move  id="moveLeft" target="{imageContainer}" xFrom="100" xTo="0" />		
-		<s:Move  id="moveRight" target="{imageContainer}" xFrom="-100" xTo="0" />
-		
-	</fx:Declarations>
-	
-	<s:BorderContainer width="100%" height="100%">
-		<s:layout>
-			<s:VerticalLayout/>
-		</s:layout>
-		<s:Button label="Home" 
-				  click="presenterViewStack.selectedChild=home;"/>	
-		<s:VGroup width="100%" height="10%" horizontalAlign="center" verticalAlign="middle">
-			
-			<s:Label  fontWeight="bold" fontSize="24" color="#2e5682">Speaker Presentations</s:Label>
-		</s:VGroup>
-		
-		<s:Group width="100%" height="80%">			
-			<s:layout>
-				<s:VerticalLayout horizontalAlign="center" verticalAlign="middle"/>
-			</s:layout>
-			<s:BorderContainer width="95%" height="95%" backgroundColor="#2e5682">
-				<mx:ViewStack id="presenterViewStack" resizeToContent="true"
-							  width="100%" height="100%">
-					
-					
-					<s:NavigatorContent id="home">
-						<s:layout>
-							<s:HorizontalLayout/>
-						</s:layout>
-						<s:Group width="55%" height="100%">
-							<s:Group width="100%" height="30%">
-								<s:Label  fontSize="18" color="#ffffff" paddingLeft="10" paddingTop="10">Core Presentation</s:Label>
-							</s:Group>
-							<s:Group width="100%" height="70%">
-								<s:layout>
-									<s:VerticalLayout horizontalAlign="center" paddingTop="50"/>
-								</s:layout>
-								<s:BorderContainer width="350" height="100" left="10" top="5" right="5" bottom="5" cornerRadius="5">
-									<s:layout>
-										<s:HorizontalLayout/>
-									</s:layout>
-									<s:HGroup buttonMode="true"  left="10"  width="35%" height="100%" horizontalAlign="center" verticalAlign="middle"
-											  click="presenterViewStack.selectedChild=display;">
-										    <s:BitmapImage  id="embimg" source="@Embed(source='images/image1-tn.jpg')"
-													   height="80" width="100"/>
-									</s:HGroup>
-									
-									<s:HGroup buttonMode="true" left="10"  width="65%" height="100%" verticalAlign="middle">
-											<s:Label text="Understanding the Data on EPI"/>	
-									</s:HGroup>										
-								</s:BorderContainer>
-								
-							</s:Group>							
-						</s:Group>
-						<s:BorderContainer width="45%" height="100%" cornerRadius="10" backgroundColor="#3184e1" borderAlpha="0">
-							<s:layout>
-								<s:VerticalLayout horizontalAlign="center" paddingTop="50"/>
-							</s:layout>						
-						</s:BorderContainer>						
-					</s:NavigatorContent>
-					
-					
-					
-					<s:NavigatorContent id="display">
-						<s:BorderContainer width="100%" height="100%">
-							<s:layout>
-								<s:BasicLayout/>
-							</s:layout>							
-							<s:VGroup id="imageContainer" width="100%" height="100%" horizontalAlign="center" maxHeight="450">								
-								<mx:Image id="phtoImage" source="{slideImage}"										 										  
-										  maxWidth="650" maxHeight="450"
-										  open="progressBar.visible=true"
-										  complete="progressBar.visible=false"/>
-								<mx:ProgressBar id="progressBar" source="{phtoImage}"												
-												visible="false"/>
-							</s:VGroup>
-							<s:HGroup width="100%" height="100%" horizontalAlign="left">
-								<s:Group width="20%" height="100%" buttonMode="true" click="slideLeft_clickHandler(event)"/>
-							</s:HGroup>
-							<s:HGroup width="100%" height="100%" horizontalAlign="right" >
-								<s:Group width="20%" height="100%" buttonMode="true" click="slideRight_clickHandler(event)"/>									
-							</s:HGroup>
-							<s:VGroup width="100%" height="100%" verticalAlign="bottom">
-								<s:BorderContainer width="100%" height="30%" backgroundColor="#000">									
-									<s:List id="thumbList" dataProvider="{presentationData}"
-												itemRenderer="components.ViewSlideItemRenderer"
-												skinClass="skins.ThumbNailImageSkin" change="thumImage_changeHandler(event)">
-											<s:layout>
-												<s:HorizontalLayout />
-											</s:layout>	
-									</s:List>
-								</s:BorderContainer>							
-							</s:VGroup>								
-						</s:BorderContainer>						
-					</s:NavigatorContent>
-					
-					<s:NavigatorContent id="edit">
-						<s:BorderContainer width="100%" height="100%">
-							<s:BorderContainer width="100%" height="20%">
-							</s:BorderContainer>
-							<s:BorderContainer width="100%" height="80%">
-							</s:BorderContainer>
-							<s:Button label="Back"
-									  click="presenterViewStack.selectedChild=home;"/>
-						</s:BorderContainer>
-					</s:NavigatorContent>
-					
-				</mx:ViewStack>			
-			</s:BorderContainer>			
-		</s:Group>
-		<s:VGroup width="100%" height="10%">			
-		</s:VGroup>
-	</s:BorderContainer>		
+
+    <fx:Declarations>
+        <s:HTTPService id="presenterService" url="xml/KOLPresentation.xml"
+                       result="presenterService_resultHandler(event)"/>
+        <s:ArrayList id="mainPresenterButton">
+            <fx:Object label="title" data="Understanding the Data on EPI"/>
+            <fx:Object label="image" data="images/ale.jpg"/>
+        </s:ArrayList>
+
+        <s:Move id="moveLeft" target="{imageContainer}" xFrom="100" xTo="0"/>
+        <s:Move id="moveRight" target="{imageContainer}" xFrom="-100" xTo="0"/>
+
+    </fx:Declarations>
+
+    <s:BorderContainer width="100%" height="100%">
+        <s:layout>
+            <s:VerticalLayout/>
+        </s:layout>
+        <s:HGroup width="50%" height="10%" gap="5">
+            <s:Button label="Home"
+                      click="presenterViewStack.selectedChild = home;"/>
+            <mx:Button label="Help" click="helpContentHandler(event)"/>
+        </s:HGroup>
+        <s:VGroup width="100%" height="10%" horizontalAlign="center" verticalAlign="middle">
+            <s:Label fontWeight="bold" fontSize="24" color="#2e5682">Speaker Presentations</s:Label>
+        </s:VGroup>
+
+        <s:Group width="100%" height="80%">
+            <s:BorderContainer width="100%" height="100%" backgroundColor="#2e5682" listAutoPadding="10">
+                <s:layout>
+                    <s:VerticalLayout horizontalAlign="center" verticalAlign="middle"/>
+                </s:layout>
+                <s:HGroup width="100%" height="10%" paddingTop="10" paddingLeft="10">
+                    <s:VGroup width="50%" height="10%" gap="7">
+                        <s:RichText fontSize="18"
+                                    text="Core Presentation">
+                        </s:RichText>
+                        <s:RichText fontSize="15" text="Click the Create New Button to build your own presentation"/>
+                    </s:VGroup>
+                    <s:VGroup width="50%" height="10%" gap="5">
+                        <s:HGroup width="100%" height="100%" verticalAlign="middle">
+                            <s:RichText fontSize="18"
+                                        text="Custom Presentation">
+                            </s:RichText>
+                            <mx:Button top="0" label="Create New" color="green"/>
+                        </s:HGroup>
+                        <s:RichText fontSize="15" text="Select a full presentation or Create your own from the existing sections"/>
+                    </s:VGroup>
+                </s:HGroup>
+                <mx:ViewStack id="presenterViewStack" resizeToContent="true"
+                              width="100%" height="100%">
+                    <s:NavigatorContent id="home">
+                        <s:layout>
+                            <s:HorizontalLayout/>
+                        </s:layout>
+                        <s:VGroup width="55%" height="100%" gap="5">
+                            <s:Group width="80%" height="25%">
+                                <s:BorderContainer width="100%" height="100%" left="10" top="5" right="5" bottom="5"
+                                                   cornerRadius="5" click="presenterViewStack.selectedChild=display;"
+                                                   buttonMode="true">
+                                    <s:HGroup buttonMode="true" left="10" width="100%" height="100%"
+                                              horizontalAlign="left" verticalAlign="middle">
+                                        <s:BitmapImage id="embimg" source="@Embed(source='images/image1-tn.jpg')"
+                                                       height="80" width="100"/>
+                                        <s:Label text="Understanding the Data on EPI"/>
+                                    </s:HGroup>
+                                </s:BorderContainer>
+                            </s:Group>
+                        </s:VGroup>
+                        <s:BorderContainer width="45%" height="100%" cornerRadius="10" backgroundColor="#3184e1"
+                                           borderAlpha="0">
+                            <s:layout>
+                                <s:VerticalLayout horizontalAlign="center" paddingTop="50"/>
+                            </s:layout>
+                        </s:BorderContainer>
+                    </s:NavigatorContent>
+                    <s:NavigatorContent id="display">
+                        <s:BorderContainer width="100%" height="100%">
+                            <s:layout>
+                                <s:BasicLayout/>
+                            </s:layout>
+                            <s:VGroup id="imageContainer" width="100%" height="100%" horizontalAlign="center"
+                                      maxHeight="450">
+                                <mx:Image id="phtoImage" source="{slideImage}"
+                                          maxWidth="650" maxHeight="450"
+                                          open="progressBar.visible=true"
+                                          complete="progressBar.visible=false"/>
+                                <mx:ProgressBar id="progressBar" source="{phtoImage}"
+                                                visible="false"/>
+                            </s:VGroup>
+                            <s:HGroup width="100%" height="100%" horizontalAlign="left">
+                                <s:Group width="20%" height="100%" buttonMode="true"
+                                         click="slideLeft_clickHandler(event)"/>
+                            </s:HGroup>
+                            <s:HGroup width="100%" height="100%" horizontalAlign="right">
+                                <s:Group width="20%" height="100%" buttonMode="true"
+                                         click="slideRight_clickHandler(event)"/>
+                            </s:HGroup>
+                            <s:VGroup width="100%" height="100%" verticalAlign="bottom">
+                                <s:BorderContainer width="100%" height="30%" backgroundColor="#000">
+                                    <s:List id="thumbList" dataProvider="{presentationData}"
+                                            itemRenderer="components.ViewSlideItemRenderer"
+                                            skinClass="skins.ThumbNailImageSkin"
+                                            change="thumImage_changeHandler(event)">
+                                        <s:layout>
+                                            <s:HorizontalLayout/>
+                                        </s:layout>
+                                    </s:List>
+                                </s:BorderContainer>
+                            </s:VGroup>
+                        </s:BorderContainer>
+                    </s:NavigatorContent>
+
+                    <s:NavigatorContent id="edit">
+                        <s:BorderContainer width="100%" height="100%">
+                            <s:BorderContainer width="100%" height="20%">
+                            </s:BorderContainer>
+                            <s:BorderContainer width="100%" height="80%">
+                            </s:BorderContainer>
+                            <s:Button label="Back"
+                                      click="presenterViewStack.selectedChild=home;"/>
+                        </s:BorderContainer>
+                    </s:NavigatorContent>
+                    <s:NavigatorContent id="helpContent">
+                        <s:Label text="Content Loading"/>
+                    </s:NavigatorContent>
+                </mx:ViewStack>
+            </s:BorderContainer>
+        </s:Group>
+    </s:BorderContainer>
 </s:WindowedApplication>

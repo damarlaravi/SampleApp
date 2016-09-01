@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<mx:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:mx="library://ns.adobe.com/flex/mx"
+                xmlns:s="library://ns.adobe.com/flex/spark"
+                showCloseButton="true" title="Help" width="500" height="500" close="titleClose(event)"
+                closeButtonSkin="skins.CloseSkinButton">
+    <fx:Script>
+        <![CDATA[
+        import mx.core.IFlexDisplayObject;
+        import mx.events.CloseEvent;
+        import mx.managers.PopUpManager;
+
+        protected function titleClose(e:CloseEvent):void {
+            PopUpManager.removePopUp(e.currentTarget as IFlexDisplayObject);
+        }
+        ]]>
+    </fx:Script>
+    <s:BorderContainer id="borderContainer" cornerRadius="10" width="100%" height="100%">
+        <s:VGroup width="100%" height="100%" gap="5">
+
+        </s:VGroup>
+    </s:BorderContainer>
+
+</mx:TitleWindow>
